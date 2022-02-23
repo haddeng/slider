@@ -15,15 +15,34 @@
 			});
 
 			function init() {
-				canvas = document.getElementById('canvas');
-				canvas.width = window.innerWidth;
-	    		canvas.height = window.innerHeight;
+				var canvas = document.getElementById('canvas');
+				//canvas.width = window.innerWidth;
+	    		//canvas.height = window.innerHeight;
+
+				resizeCanvas();
+	    		window.addEventListener('resize', resizeCanvas, false);
 			}
+
+			function resizeCanvas() {
+				if(window.orientation !== undefined) { // if mobile
+					canvas.width = document.documentElement.clientWidth;
+					canvas.height = document.documentElement.clientHeight;
+				} else { // if pc
+					canvas.width = window.innerWidth;
+					canvas.height = window.innerHeight;
+				}
+
+				//ctx.fillStyle = "black";
+				//ctx.textAlign = "center";
+				//ctx.font = "30px Arial";
+				//ctx.fillText(window.innerWidth+'x'+window.innerHeight,window.innerWidth/2, window.innerHeight/2);
+			}
+
 		</script>
 	</head>
 
 	<body>
-		<canvas id="canvas" style="background-color: green;">
+		<canvas id="canvas">
 			Your browser does not support the HTML5 canvas tag.
 		</canvas>
 	</body>
