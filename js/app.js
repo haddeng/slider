@@ -23,7 +23,7 @@ document.addEventListener('click', function (event) {
 
 function initRoutes() {
 	routeMap.set('/', HomeView.newInstance(true));
-	routeMap.set('/slider', HomeView.newInstance(true));
+	routeMap.set('/slider/', HomeView.newInstance(true));
 }
 
 
