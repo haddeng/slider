@@ -3,7 +3,7 @@ import View from './View.js';
 export default class HeaderView extends View {
 	
 	constructor() {
-    	super('/html/header.html', {});
+    	super('html/header.html', {});
 	}
 
 
