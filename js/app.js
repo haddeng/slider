@@ -1,5 +1,5 @@
-import HomeView from '/js/HomeView.js';
-import TemplateView from '/js/TemplateView.js';
+import HomeView from './HomeView.js';
+import TemplateView from './TemplateView.js';
 
 var routeMap = new Map();
 
