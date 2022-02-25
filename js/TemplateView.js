@@ -1,6 +1,6 @@
-import View from '/js/View.js';
-import HeaderView from '/js/HeaderView.js';
-import FooterView from '/js/FooterView.js';
+import View from './View.js';
+import HeaderView from './HeaderView.js';
+import FooterView from './FooterView.js';
 
 export default class TemplateView extends View {
 	
