@@ -22,8 +22,11 @@ document.addEventListener('click', function (event) {
 
 
 function initRoutes() {
-	routeMap.set('/', HomeView.newInstance(true));
-	routeMap.set('/slider/', HomeView.newInstance(true));
+	if (window.location.hostname.indexOf('haddeng') == -1) {
+		routeMap.set('/', HomeView.newInstance(true));
+	} else {
+		routeMap.set('/slider/', HomeView.newInstance(true));
+	}
 }
 
 
@@ -47,7 +50,7 @@ function route(pathname) {
 	
 	//document.getElementById('body').innerHTML = view.container.outerHTML;	
 	document.body.appendChild(view.container);
-	//routeView.onAttach();
+	routeView.onAttached();
 }
 
 
@@ -82,6 +85,11 @@ window.addEventListener('submit', function (event) {
 	event.preventDefault();
 	sendData(event.target);
 });
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOMContentLoaded!')
+})
 
 
 window.loadResource = function(url) {

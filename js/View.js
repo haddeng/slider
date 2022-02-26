@@ -53,13 +53,8 @@ export default class View {
 			
 			that.replaceChildren(that.container, htmlDocument.body.firstChild);
 			//that.container = htmlDocument.body.firstChild;
-			that.onUpdated();
-			that.built = true;
-			
-			if (that.attached && that.built) {
-				console.log('CALLING onVisible FROM BUILT');
-				//that.onVisible();
-			}
+			//that.onUpdated();			
+			that.onBuilt();
 		});
 	}
 	
@@ -76,19 +71,30 @@ export default class View {
 	}
 	
 	
-	onAttach() {
-		console.log('ATTACHED');
+	onAttached() {
+		console.log(this.constructor.name + ' ATTACHED');
 		this.attached = true;
 		
-		if (this.attached && this.built) {
-			console.log('CALLING onVisible FROM ATTACHED');
-			onVisible();
+		if (this.built) {
+			this.onRendered();
 		}
 	}
 	
-	onVisible() {
-		console.log('VISIBLE');
+	
+	onBuilt() {
+		console.log(this.constructor.name + ' BUILT');
+		this.built = true;
+		
+		if (this.attached) {
+			this.onRendered();
+		}
 	}
+	
+	
+	onRendered() {
+		console.log(this.constructor.name + ' RENDERED');
+	}
+	
 	
 	onUpdated() {
 		console.log('UPDATED');
