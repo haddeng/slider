@@ -3,6 +3,8 @@ export default class View {
 	constructor(template, data)	{
     	this.template = template;
     	this.data = data;
+		this.attached = false;
+		this.built = false;
 
 		var div = document.createElement('div');
 		div.setAttribute('id', this.constructor.name);
@@ -51,6 +53,13 @@ export default class View {
 			
 			that.replaceChildren(that.container, htmlDocument.body.firstChild);
 			//that.container = htmlDocument.body.firstChild;
+			that.onUpdated();
+			that.built = true;
+			
+			if (that.attached && that.built) {
+				console.log('CALLING onVisible FROM BUILT');
+				//that.onVisible();
+			}
 		});
 	}
 	
@@ -66,4 +75,44 @@ export default class View {
 		target.appendChild(replacement);		
 	}
 	
+	
+	onAttach() {
+		console.log('ATTACHED');
+		this.attached = true;
+		
+		if (this.attached && this.built) {
+			console.log('CALLING onVisible FROM ATTACHED');
+			onVisible();
+		}
+	}
+	
+	onVisible() {
+		console.log('VISIBLE');
+	}
+	
+	onUpdated() {
+		console.log('UPDATED');
+	}
+	
+	
+	getDeviceDimensions()
+	{
+		var screenWidth = window.screen.width; 
+    	var screenHeight = window.screen.height;
+    	var computedPixelRatio =  (window.screen.availWidth / document.documentElement.clientWidth);                        // a more reliable measure of device pixel ratio due to android firefox bugs...
+    	computedPixelRatio = window.devicePixelRatio >= computedPixelRatio ? window.devicePixelRatio : computedPixelRatio;  // select whichever value is larger between pixel ratio methods
+
+	    if (navigator.userAgent.indexOf('Android') != -1) 
+	    {
+	        screenWidth = screenWidth / computedPixelRatio;
+	        screenHeight = screenHeight / computedPixelRatio;
+	    }
+
+    	console.log(screenWidth + " " + screenHeight + " " + window.devicePixelRatio + " " + computedPixelRatio);
+
+		return {
+			height: screenHeight,
+			width: screenWidth,
+		};
+	}
 }

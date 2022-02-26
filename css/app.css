@@ -1,26 +1,36 @@
-body {
-	height: 100%;
+* {
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+}
+
+body {
+	height: 100%;
 	width: 100%;
 }
 
 html {
 	height: 100%;
-	margin: 0;
-	padding: 0;
+	width: 100%;
+}
+
+#canvas {
+	background-color: #cccccc;
+	height: 100%;
 	width: 100%;
 }
 
 #canvas-container {
 	border: 1px solid black;
-	height: 50%;
+	display: block;
+	height: 50vh;
 	margin: auto;
-	width: 50%;
+	width: 50vh;
 }
 
 #TemplateView {
 	height: 100%;
+	padding: 1%;
 }
 
 #HomeView {

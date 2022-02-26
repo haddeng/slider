@@ -30,9 +30,10 @@ function initRoutes() {
 function route(pathname) {
 	var routeKey = pathname.replace(new RegExp('\/([0-9]+)\/', 'g'), '\/#\/');
 	routeKey = routeKey.replace(new RegExp('\/([0-9]+)$', 'g'), '\/#');
-	var view = routeMap.get(routeKey);
+	var routeView = routeMap.get(routeKey);
+	var view = routeView;
 
-	if (!view) {
+	if (!routeView) {
 		// URL isn't mapped to a view
     	throw new Error('No view mapped for ' + routeKey);
   	}
@@ -46,7 +47,8 @@ function route(pathname) {
 	
 	//document.getElementById('body').innerHTML = view.container.outerHTML;	
 	document.body.appendChild(view.container);
- }
+	//routeView.onAttach();
+}
 
 
 window.addEventListener('error', function (e) {
@@ -60,6 +62,12 @@ window.addEventListener("load", function() {
 });
 
 
+window.addEventListener('resize', function() {
+	console.log('Resize');
+	location.reload();
+});
+
+
 window.addEventListener('popstate', function (e) {
 	var state = e.state;
 
@@ -69,7 +77,6 @@ window.addEventListener('popstate', function (e) {
 		route('/');
 	}
 });
-
 
 window.addEventListener('submit', function (event) {
 	event.preventDefault();
