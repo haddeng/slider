@@ -14,31 +14,22 @@ html {
 	width: 100%;
 }
 
-#canvas {
+main {
+	height: 100%;
+}
+
+#game-canvas {
 	background-color: #cccccc;
-	height: 100%;
-	width: 100%;
-}
-
-#canvas-container {
-	border: 1px solid black;
 	display: block;
-	height: 50vh;
+	/*height: 100%;
+	width: 100%;*/
+}
+
+#game-container {
+	border: 1px solid black;
+	height: 80vmin;
 	margin: auto;
-	width: 50vh;
-}
-
-#TemplateView {
-	height: 100%;
-	padding: 1%;
-}
-
-#HomeView {
-	height: 100%;
-}
-
-.fill {
-	height: 100%;
+	width: 80vmin;
 }
 
 #header {
@@ -47,34 +38,34 @@ html {
 	flex-basis: auto;
 }
 
-#header .header-content {
+#header header {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 }
 
-#header .header-content .header-content-center {
+#header header .header-center {
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
 	text-align: center;
 }
 
-#header .header-content .header-content-left {
+#header header .header-left {
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
 	text-align: left;
 }
 
-#header .header-content .header-content-right {
+#header header .header-right {
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
 	text-align: right;
 }
 
-#content {
+#main {
 	flex-grow: 1;
 	flex-shrink: 1;
 	flex-basis: auto;
@@ -91,6 +82,7 @@ html {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
+	row-gap: 2%;
 	height: 100%;
 }
 

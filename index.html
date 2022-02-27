@@ -6,16 +6,33 @@
 		<!--<base href="http://slider.test/">-->
 		<!----><base href="https://haddeng.github.io/slider/">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/app.css" />
-    	<script src="js/app.js" type="module"></script>
-
-		<script>
-			document.addEventListener('DOMContentLoaded', function(event) {
-				console.log('Ready');
-			})
-		</script>
+    	<script src="js/slider.js" type="module"></script>
 	</head>
 
 	<body>
+		<div id="template">
+			<div id="header">
+				<header>
+					<div class="header-left">L</div>
+					<div class="header-center">SLIDER</div>
+					<div class="header-right">R</div>
+				</header>
+			</div>
+			
+			<div id="main">
+				<main>
+					<div id="game-container">
+						<canvas id="game-canvas"></canvas>
+					</div>
+				</main>
+			</div>
+			
+			<div id="footer">
+				<footer>
+					Copyright &copy; <span id="copyright-year"></span>
+				</footer>
+			</div>
+		</div>
 	</body>
 
 </html>
