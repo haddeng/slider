@@ -38,7 +38,15 @@ function initControls() {
 		controlDown(event);
 	});
 	
+	canvas.addEventListener('touchstart', function(event) {
+		controlDown(event);
+	});
+	
 	canvas.addEventListener('mouseup', function(event) {
+		controlUp(event);
+	});
+	
+	canvas.addEventListener('touchend', function(event) {
 		controlUp(event);
 	});
 }
@@ -47,8 +55,8 @@ function initControls() {
 function controlDown(event) {
 	let canvas = document.getElementById('game-canvas');
 	
-	let canvasX = (event.pageX || event.targetTouches[0].pageX) - canvas.offsetLeft;
-	let canvasY = (event.pageY || event.targetTouches[0].pageY) - canvas.offsetTop;
+	let canvasX = (event.pageX || event.changedTouches[0].pageX) - canvas.offsetLeft;
+	let canvasY = (event.pageY || event.changedTouches[0].pageY) - canvas.offsetTop;
 	let gridX = Math.floor(canvasX / gameContext.getTileWidth());
 	let gridY = Math.floor(canvasY / gameContext.getTileHeight());
 	
@@ -69,8 +77,8 @@ function controlDown(event) {
 function controlUp(event) {
 	let canvas = document.getElementById('game-canvas');
 	
-	let canvasX = (event.pageX || event.targetTouches[0].pageX) - canvas.offsetLeft;
-	let canvasY = (event.pageY || event.targetTouches[0].pageY) - canvas.offsetTop;
+	let canvasX = (event.pageX || event.changedTouches[0].pageX) - canvas.offsetLeft;
+	let canvasY = (event.pageY || event.changedTouches[0].pageY) - canvas.offsetTop;
 	let gridX = Math.floor(canvasX / gameContext.getTileWidth());
 	let gridY = Math.floor(canvasY / gameContext.getTileHeight());
 
@@ -123,7 +131,7 @@ function resize() {
 	
 	if (mainElement.clientHeight > mainElement.clientWidth) {
 		console.log('Portrait view detected');
-		gameContainerElement.style.width = '100%';
+		gameContainerElement.style.width = '95%';
 		gameContainerElement.style.height = gameContainerElement.clientWidth + 'px';
 	} else {
 		console.log('Landscape view detected');
