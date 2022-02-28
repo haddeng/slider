@@ -4,7 +4,8 @@ export default class Tile {
 	#gameContext;
 	#x = 0;
 	#y = 0;
-	#velocityX = 4;
+	#velocityX = 8;
+	#velocityY = 0;
 
 	constructor(gameContext) {
 		this.#gameContext = gameContext;
@@ -13,10 +14,10 @@ export default class Tile {
 	
 	
 	draw() {
-		console.log('draw tile');
+		//console.log('draw tile');
 		
 		var canvasX = this.#x * this.#gameContext.getTileWidth();
-		var canvasY = 0;
+		var canvasY = this.#y * this.#gameContext.getTileHeight();
 		var height = this.#gameContext.getTileHeight();
 		var width = this.#gameContext.getTileWidth();
 
@@ -29,6 +30,15 @@ export default class Tile {
 	}
 	
 	
+	setVelocityX(velocityX) {
+		this.#velocityX = velocityX;	
+	}
+	
+	
+	setVelocityY(velocityY) {
+		this.#velocityY = velocityY;	
+	}
+	
 	setX(x) {
 		this.#x = x;
 	}
@@ -40,10 +50,38 @@ export default class Tile {
 	
 	
 	update(secondsPassed) {
-		console.log('update tile');
+		//console.log('update tile');
 		
-		if (this.#x < this.#gameContext.getXTiles() - 1) {
+		if (this.#velocityX > 0 && this.#x < this.#gameContext.getXTiles() - 1) {
 			this.#x += (this.#velocityX * secondsPassed);
+			
+			if (this.#x > this.#gameContext.getXTiles() - 1) {
+				this.#x = Math.floor(this.#x);
+			}
+		} else {
+			if (this.#velocityX < 0 && this.#x > 0) {
+				this.#x += (this.#velocityX * secondsPassed);
+				
+				if (this.#x < 0) {
+					this.#x = 0;
+				}
+			}
+		}
+		
+		if (this.#velocityY > 0 && this.#y < this.#gameContext.getYTiles() - 1) {
+			this.#y += (this.#velocityY * secondsPassed);
+			
+			if (this.#y > this.#gameContext.getYTiles() - 1) {
+				this.#y = Math.floor(this.#y);
+			}
+		} else {
+			if (this.#velocityY < 0 && this.#y > 0) {
+				this.#y += (this.#velocityY * secondsPassed);
+				
+				if (this.#y < 0) {
+					this.#y = 0;
+				}
+			}
 		}
 	}
 }
