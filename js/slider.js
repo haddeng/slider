@@ -6,8 +6,6 @@ var gameContext = new GameContext();
 var gameObjects = [];
 var oldTimeStamp = 0;
 
-var tile;
-
 
 function clearCanvas() {
 	gameContext.getCanvasContext().clearRect(0, 0, gameContext.getCanvasContext().canvas.width, gameContext.getCanvasContext().canvas.height);
@@ -22,10 +20,14 @@ function init() {
 	initControls();
 	
 	gameContext.setCanvasContext(document.getElementById('game-canvas').getContext('2d'));
-	tile = new Tile(gameContext);
-	tile.setX(0);
-	tile.setY(0);
-	gameObjects.push(tile);
+	let tile1 = new Tile(gameContext);
+	tile1.setX(0);
+	tile1.setY(0);
+	gameObjects.push(tile1);
+	let tile2 = new Tile(gameContext);
+	tile2.setX(3);
+	tile2.setY(4);
+	gameObjects.push(tile2);
 	
 	window.requestAnimationFrame(updateGame);
 }
@@ -59,8 +61,15 @@ function controlDown(event) {
 	let canvasY = (event.pageY || event.changedTouches[0].pageY) - canvas.offsetTop;
 	let gridX = Math.floor(canvasX / gameContext.getTileWidth());
 	let gridY = Math.floor(canvasY / gameContext.getTileHeight());
+	let tile = gameContext.getTileAt(gridX, gridY);
+
+	if (tile == null) {
+		gameContext.setDragStart(null);
+		return;
+	}
 	
 	let dragStart =  {
+		tile: tile,
 		x: canvasX,
 		y: canvasY
 	}
@@ -75,6 +84,11 @@ function controlDown(event) {
 
 
 function controlUp(event) {
+	
+	if (gameContext.getDragStart() == null) {
+		return;
+	}
+	
 	let canvas = document.getElementById('game-canvas');
 	
 	let canvasX = (event.pageX || event.changedTouches[0].pageX) - canvas.offsetLeft;
@@ -84,6 +98,7 @@ function controlUp(event) {
 
 	let vectorX = canvasX - gameContext.getDragStart().x;
 	let vectorY = canvasY - gameContext.getDragStart().y;
+	let tile = gameContext.getDragStart().tile;
 	
 	console.log('vectorX = ' + vectorX);
 	console.log('vectorY = ' + vectorY);
@@ -161,7 +176,9 @@ function updateGame(timeStamp) {
 	}
 
 	// Detect collisions
-	//detectCollisions();
+	for (let i = 0; i < gameObjects.length; i++) {
+		gameObjects[i].detectCollision(secondsPassed);
+	}
 
 	// Clear the canvas
 	clearCanvas();

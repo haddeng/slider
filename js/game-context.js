@@ -6,6 +6,7 @@ export default class GameContext {
 	#canvasContext;
 	#canvasDrag = false;
 	#dragStart;
+	#tileGrid;
 	#tileHeight;
 	#tileWidth;
 	
@@ -18,6 +19,17 @@ export default class GameContext {
 	getDragStart() {
 		return this.#dragStart;
 	}
+	
+	
+	clearTileAt(x, y) {
+		this.#tileGrid[y][x] = null;
+	}
+	
+	
+	getTileAt(x, y) {
+		return this.#tileGrid[y][x];
+	}
+	
 	
 	getTileHeight() {
 		return this.#tileHeight;
@@ -46,6 +58,18 @@ export default class GameContext {
 	
 	#init() {
 		this.update();
+		
+		this.#tileGrid = [];
+		
+		for (let y = 0; y < GameContext.#Y_TILES; y++) {
+			let row = [];
+			
+			for (let x = 0; x < GameContext.#X_TILES; x++) {
+				row.push(null);
+			}
+			
+			this.#tileGrid.push(row);
+		} 
 	}
 	
 	
@@ -71,5 +95,10 @@ export default class GameContext {
 	
 	setDragStart(dragStart) {
 		this.#dragStart = dragStart;
+	}
+	
+	
+	setTileAt(x, y, value) {
+		this.#tileGrid[y][x] = value;
 	}
 }
