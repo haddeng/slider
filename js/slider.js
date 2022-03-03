@@ -67,6 +67,7 @@ function initSounds() {
 
 
 function controlDown(event) {
+	event.preventDefault();
 	let canvas = document.getElementById('game-canvas');
 	
 	let canvasX = (event.pageX || event.changedTouches[0].pageX) - canvas.offsetLeft;
