@@ -6,10 +6,17 @@ export default class GameContext {
 	#canvasContext;
 	#canvasDrag = false;
 	#dragStart;
+	#gameObjects = [];
 	#tileGrid;
 	#tileHeight;
+	#tileVelocity = 10;
 	#tileWidth;
-	
+
+
+	clearTileAt(x, y) {
+		this.#tileGrid[y][x] = null;
+	}
+		
 	
 	getCanvasContext() {
 		return this.#canvasContext;
@@ -19,10 +26,10 @@ export default class GameContext {
 	getDragStart() {
 		return this.#dragStart;
 	}
+
 	
-	
-	clearTileAt(x, y) {
-		this.#tileGrid[y][x] = null;
+	getGameObjects() {
+		return this.#gameObjects;
 	}
 	
 	
@@ -33,6 +40,11 @@ export default class GameContext {
 	
 	getTileHeight() {
 		return this.#tileHeight;
+	}
+	
+	
+	getTileVelocity() {
+		return this.#tileVelocity;
 	}
 	
 	
@@ -71,14 +83,7 @@ export default class GameContext {
 			this.#tileGrid.push(row);
 		} 
 	}
-	
-	
-	update() {
-		if (this.#canvasContext) {
-			this.#tileHeight = this.#canvasContext.canvas.height / GameContext.#Y_TILES;
-			this.#tileWidth = this.#canvasContext.canvas.width / GameContext.#X_TILES;
-		}
-	}
+
 	
 	
 	setCanvasContext(canvasContext) {
@@ -100,5 +105,13 @@ export default class GameContext {
 	
 	setTileAt(x, y, value) {
 		this.#tileGrid[y][x] = value;
+	}
+	
+	
+	update() {
+		if (this.#canvasContext) {
+			this.#tileHeight = this.#canvasContext.canvas.height / GameContext.#Y_TILES;
+			this.#tileWidth = this.#canvasContext.canvas.width / GameContext.#X_TILES;
+		}
 	}
 }

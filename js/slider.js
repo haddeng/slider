@@ -1,10 +1,12 @@
 import Footer from './footer.js';
 import GameContext from './game-context.js';
+import Sound from './sound.js';
 import Tile from './tile.js';
 
 var gameContext = new GameContext();
-var gameObjects = [];
+//var gameObjects = [];
 var oldTimeStamp = 0;
+var sound;
 
 
 function clearCanvas() {
@@ -18,16 +20,21 @@ function init() {
 	resize();
 	
 	initControls();
+	initSounds();
 	
 	gameContext.setCanvasContext(document.getElementById('game-canvas').getContext('2d'));
-	let tile1 = new Tile(gameContext);
-	tile1.setX(0);
-	tile1.setY(0);
-	gameObjects.push(tile1);
-	let tile2 = new Tile(gameContext);
-	tile2.setX(3);
-	tile2.setY(4);
-	gameObjects.push(tile2);
+	//let tile1 = new Tile(gameContext);
+	//tile1.setX(4);
+	//tile1.setY(0);
+	//tile1.setId(1);
+	//gameContext.setTileAt(4, 0, tile1);
+	//gameContext.getGameObjects().push(tile1);
+	//let tile2 = new Tile(gameContext);
+	//tile2.setX(4);
+	//tile2.setY(1);
+	//tile2.setId(2);
+	//gameContext.getGameObjects().push(tile2);
+	//gameContext.setTileAt(4, 1, tile2);
 	
 	window.requestAnimationFrame(updateGame);
 }
@@ -54,6 +61,11 @@ function initControls() {
 }
 
 
+function initSounds() {
+	sound = new Sound('https://www.w3schools.com/graphics/bounce.mp3');
+}
+
+
 function controlDown(event) {
 	let canvas = document.getElementById('game-canvas');
 	
@@ -65,8 +77,15 @@ function controlDown(event) {
 
 	if (tile == null) {
 		gameContext.setDragStart(null);
+		
+		if (gridX == 0 && gridY == 0 && gameContext.getTileAt(0, 0) == null) {
+			newTile();
+		}
+		
 		return;
 	}
+	
+	//debugger;
 	
 	let dragStart =  {
 		tile: tile,
@@ -109,11 +128,11 @@ function controlUp(event) {
 		if (vectorX < 0) {
 			// Left	
 			console.log('Left');
-			tile.setVelocityX(-8);
+			tile.setVelocityX(-gameContext.getTileVelocity());
 		} else {
 			// Right
 			console.log('Right');
-			tile.setVelocityX(8);
+			tile.setVelocityX(gameContext.getTileVelocity());
 		}
 	} else {
 		console.log('Vertical move');
@@ -121,17 +140,29 @@ function controlUp(event) {
 		if (vectorY < 0) {
 			// Up	
 			console.log('Up');
-			tile.setVelocityY(-8);
+			tile.setVelocityY(-gameContext.getTileVelocity());
 		} else {
 			// Down
 			console.log('Down');
-			tile.setVelocityY(8);
+			tile.setVelocityY(gameContext.getTileVelocity());
 		}
 	}
 
 	gameContext.setCanvasDrag(false);
 	//gameContext.setDragStart(dragStart);
 	console.log('MOUSE UP');
+}
+
+
+function newTile() {
+	let tile = new Tile(gameContext);
+	tile.setX(0);
+	tile.setY(0);
+	tile.setVelocityX(gameContext.getTileVelocity());
+	//tile.setId(1);
+	gameContext.setTileAt(0, 0, tile);
+	gameContext.getGameObjects().push(tile);
+
 }
 
 
@@ -171,21 +202,21 @@ function updateGame(timeStamp) {
 	oldTimeStamp = timeStamp;
 
 	// Update
-	for (let i = 0; i < gameObjects.length; i++) {
-		gameObjects[i].update(secondsPassed);
+	for (let i = 0; i < gameContext.getGameObjects().length; i++) {
+		gameContext.getGameObjects()[i].update(secondsPassed);
 	}
 
 	// Detect collisions
-	for (let i = 0; i < gameObjects.length; i++) {
-		gameObjects[i].detectCollision(secondsPassed);
+	for (let i = 0; i < gameContext.getGameObjects().length; i++) {
+		gameContext.getGameObjects()[i].detectCollision(secondsPassed, sound);
 	}
 
 	// Clear the canvas
 	clearCanvas();
 
 	// Draw
-	for (let i = 0; i < gameObjects.length; i++) {
-		gameObjects[i].draw(secondsPassed);
+	for (let i = 0; i < gameContext.getGameObjects().length; i++) {
+		gameContext.getGameObjects()[i].draw(secondsPassed);
 	}
 
 	// Requesting new frame
