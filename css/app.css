@@ -27,6 +27,7 @@ main {
 }
 
 #game-container {
+	background-color: #cccccc;
 	border: 1px solid black;
 	height: 80vmin;
 	margin: auto;

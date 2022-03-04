@@ -1,5 +1,6 @@
 import Footer from './footer.js';
 import GameContext from './game-context.js';
+import Image from './image.js';
 import Sound from './sound.js';
 import Tile from './tile.js';
 
@@ -7,7 +8,8 @@ var gameContext = new GameContext();
 //var gameObjects = [];
 var oldTimeStamp = 0;
 var sound;
-
+var image;
+var tiles = [];
 
 function clearCanvas() {
 	gameContext.getCanvasContext().clearRect(0, 0, gameContext.getCanvasContext().canvas.width, gameContext.getCanvasContext().canvas.height);
@@ -23,18 +25,9 @@ function init() {
 	initSounds();
 	
 	gameContext.setCanvasContext(document.getElementById('game-canvas').getContext('2d'));
-	//let tile1 = new Tile(gameContext);
-	//tile1.setX(4);
-	//tile1.setY(0);
-	//tile1.setId(1);
-	//gameContext.setTileAt(4, 0, tile1);
-	//gameContext.getGameObjects().push(tile1);
-	//let tile2 = new Tile(gameContext);
-	//tile2.setX(4);
-	//tile2.setY(1);
-	//tile2.setId(2);
-	//gameContext.getGameObjects().push(tile2);
-	//gameContext.setTileAt(4, 1, tile2);
+	
+	loadImage();
+	createTiles();
 	
 	window.requestAnimationFrame(updateGame);
 }
@@ -80,7 +73,9 @@ function controlDown(event) {
 		gameContext.setDragStart(null);
 		
 		if (gridX == 0 && gridY == 0 && gameContext.getTileAt(0, 0) == null) {
-			newTile();
+			//newTile();
+			tile = tiles.pop();
+			gameContext.getGameObjects().push(tile);
 		}
 		
 		return;
@@ -155,15 +150,33 @@ function controlUp(event) {
 }
 
 
-function newTile() {
+function loadImage() {
+	image = new Image('./image/spurs.jpg', gameContext);
+}
+
+
+function createTiles() {
+	for (let y = 0; y < gameContext.getYTiles(); y++) {
+		for (let x = 0; x < gameContext.getXTiles(); x++) {
+			let tile = newTile(x, y);
+			tiles.push(tile);
+		}
+	}
+}
+
+
+function newTile(imageGridX, imageGridY) {
 	let tile = new Tile(gameContext);
+	tile.setImage(image);
+	tile.setImageGridX(imageGridX);
+	tile.setImageGridY(imageGridY);
 	tile.setX(0);
 	tile.setY(0);
 	tile.setVelocityX(gameContext.getTileVelocity());
 	//tile.setId(1);
-	gameContext.setTileAt(0, 0, tile);
-	gameContext.getGameObjects().push(tile);
-
+		//gameContext.setTileAt(0, 0, tile);
+		//gameContext.getGameObjects().push(tile);
+	return tile;
 }
 
 

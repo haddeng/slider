@@ -2,6 +2,9 @@ export default class Tile {
 
 	#color;
 	#gameContext;
+	#image;
+	#imageGridX;
+	#imageGridY;
 	#id;
 	#oldX;
 	#oldY;
@@ -9,6 +12,7 @@ export default class Tile {
 	#y = 0;
 	#velocityX = 0;
 	#velocityY = 0;
+
 
 	constructor(gameContext) {
 		this.#gameContext = gameContext;
@@ -150,6 +154,12 @@ export default class Tile {
 		//this.#gameContext.getCanvasContext().strokeStyle = 'green';
 		this.#gameContext.getCanvasContext().fillRect(canvasX, canvasY, width, height);
 		//this.#gameContext.getCanvasContext().strokeRect(canvasX, canvasY, width, height);
+		
+		//this.#gameContext.getCanvasContext().drawImage(this.#image.getImage(), 400, 400, width, height, canvasX, canvasY, width, height);
+		let imageSourceY = this.#imageGridY * height;
+		let imageSourceX = this.#imageGridX * width;
+		this.#gameContext.getCanvasContext().drawImage(this.#image.getImage(), imageSourceX, imageSourceY, width, height, canvasX, canvasY, width, height);
+		
 		this.#gameContext.getCanvasContext().closePath();
 	}
 	
@@ -184,6 +194,21 @@ export default class Tile {
 	}
 	
 	
+	setImage(image) {
+		this.#image = image;
+	}
+	
+	
+	setImageGridX(imageGridX) {
+		this.#imageGridX = imageGridX;
+	}
+	
+	
+	setImageGridY(imageGridY) {
+		this.#imageGridY = imageGridY;
+	}
+	
+	
 	setVelocityX(velocityX) {
 		this.#velocityX = velocityX;	
 	}
@@ -192,6 +217,7 @@ export default class Tile {
 	setVelocityY(velocityY) {
 		this.#velocityY = velocityY;	
 	}
+	
 	
 	setX(x) {
 		this.#x = x;
